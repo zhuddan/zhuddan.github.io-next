@@ -1,17 +1,17 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import React from 'react'
 
 export default function Header() {
   return (
-    <header className="h-[var(--header-height)] px-4 flex items-center">
-      <Link href="/">ZDecode</Link>
+    <header
+      className="h-[var(--header-height)] px-8 flex items-center border-b sticky top-0 bg-[var(--background)]"
+    >
       <Image
         className="dark:invert"
-        src="/next.svg"
+        src="/logo.png"
         alt="Next.js logo"
-        width={180}
-        height={38}
+        width={110}
+        height={20}
         priority
       />
     </header>
