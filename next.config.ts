@@ -2,10 +2,11 @@ import type { NextConfig } from 'next'
 import createMDX from '@next/mdx'
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  // output: 'export',
-  // reactStrictMode: true,
+  output: 'export',
+  reactStrictMode: true,
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
+  images: { unoptimized: true },
+  trailingSlash: true,
 }
 
 const withMDX = createMDX({
