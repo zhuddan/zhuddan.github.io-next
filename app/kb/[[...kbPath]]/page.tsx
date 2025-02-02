@@ -1,11 +1,12 @@
-import { getData } from '../../libs/md'
+import { getKbData } from '../../libs/md'
 
 export async function generateStaticParams() {
-  getData()
+  const {
+    kbPaths,
+  } = getKbData()
   return [
     { kbPath: undefined },
-    { kbPath: ['welcome'] },
-    { kbPath: ['about'] },
+    ...kbPaths,
   ]
 }
 
@@ -18,7 +19,6 @@ export default async function Page({
   return (
     <>
       <p>
-
         {JSON.stringify({ kbPath: JSON.stringify(kbPath) })}
       </p>
       <div>
