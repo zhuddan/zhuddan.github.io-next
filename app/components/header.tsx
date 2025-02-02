@@ -18,7 +18,7 @@ export default function Header() {
         />
       </Link>
       <div className="flex-1"></div>
-      <Link href="/kb">知识库</Link>
+      <Link href="/kb/about/a">知识库</Link>
       <Link href="/blog" className="ml-1">博客</Link>
     </header>
   )
