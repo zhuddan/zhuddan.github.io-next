@@ -1,3 +1,4 @@
+// 'use client'
 import React from 'react'
 import { getKbData } from '../libs/md'
 import Footer from './footer'
@@ -10,7 +11,7 @@ export default function Main({ children }: { children: React.ReactNode }) {
     <main className="flex">
       <Sidebar data={tree} />
       <section className="flex-1">
-        <div className="min-h-[calc(100vh_-_var(--header-height)_-_var(--footer-height))] p-8">
+        <div className="min-h-[calc(100vh_-_var(--header-height)_-_var(--footer-height))]">
           {children}
         </div>
         <Footer />
