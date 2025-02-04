@@ -17,4 +17,7 @@ export default antfu({
   overrides: [
     ...compat.extends('next/core-web-vitals', 'next/typescript'),
   ],
+  rules: {
+    'no-console': 'off',
+  },
 })

@@ -32,6 +32,10 @@ export default {
           light: '#9ca3af',
         },
       },
+      fontFamily: {
+        archivo: ['var(--font-archivo)'],
+        // 'geist-mono': ['var(--font-geist-mono)'],
+      },
     },
   },
   plugins: [],
