@@ -14,28 +14,28 @@ function getTree(root: string, basename = root) {
     const filePath = path.join(root, array[index])
     const el = fs.statSync(filePath)
     const selfPath = path.basename(filePath).replace('.md', '')
+    const children = el.isDirectory()
+      ? getTree(filePath, basename).filter(e => e.name !== 'index').map((e) => {
+          return {
+            ...e,
+            name: `${selfPath}__${e.name}`,
+            path: [selfPath, ...e.path],
+          }
+        })
+      : undefined
     items.push({
       name: selfPath,
       path: [
         selfPath,
       ],
-      children: el.isDirectory()
-        ? getTree(filePath, basename).map((e) => {
-            return {
-              ...e,
-              name: `${selfPath}__${e.name}`,
-              path: [selfPath, ...e.path],
-            }
-          })
-        : undefined,
+      children,
     })
   }
   return items
 }
 
 export function getKbData() {
-  const tree = getTree('./app/content')
-
+  const tree = getTree('./app/knowledge-base')
   function getKbPaths(data: MenuItem[]) {
     const result: { kbPath: string[] }[] = []
     for (let index = 0; index < data.length; index++) {
