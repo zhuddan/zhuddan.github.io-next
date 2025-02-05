@@ -1,26 +1,22 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
+import { compileMDX } from 'next-mdx-remote/rsc'
 
 export interface Category {
-  name: string
+  title: string
   path: string[]
-  menus: MenuItem[]
+  menus?: Category[]
 }
 
-interface MenuItem {
-  name: string
-  path: string[]
-}
-
-const kbPath = './app/knowledge-base'
+const kbRootPath = './app/knowledge-base'
 
 function getTree() {
-  const categories = fs.readdirSync(kbPath)
+  const categories = fs.readdirSync(kbRootPath)
   const items: Category[] = []
   for (let index = 0; index < categories.length; index++) {
     const categoryName = categories[index]
-    const dirPath = path.join(kbPath, categoryName)
+    const dirPath = path.join(kbRootPath, categoryName)
     const el = fs.statSync(dirPath)
     const isGroup = el.isDirectory()
     if (!isGroup) {
@@ -31,11 +27,10 @@ function getTree() {
     const fileContents = fs.readFileSync(rootFilePath).toString()
     const { data } = matter(fileContents)
     const s = {
-      name: data.title,
+      title: data.title,
       path: [categoryName],
       menus: [],
     } satisfies Category
-    console.log(s)
     items.push(s)
   }
   return items
@@ -62,12 +57,44 @@ export function getKbData() {
   }
 }
 
+
+const Alert = ({ children, type = 'info' }: { children: React.ReactNode; type?: 'info' | 'warning' | 'error' }) => {
+  const styles = {
+    info: 'bg-blue-50 border-blue-200 text-blue-800',
+    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
+    error: 'bg-red-50 border-red-200 text-red-800',
+  }
+  
+  return (
+    <div className={`p-4 my-4 border rounded-lg ${styles[type]}`}>
+      {children}
+    </div>
+  )
+}
+
+
+
 export async function getKBContext(kbPath: string[]) {
   const mdFilePath = (kbPath.length === 1
     ? [...kbPath, 'index']
     : kbPath).join('/')
-  const {
-    default: Post,
-  } = await import(`@/app/knowledge-base/${mdFilePath}.md`)
-  return Post
+  const filePath = path.join('app/knowledge-base', `${mdFilePath}.md`)
+  const source = fs.readFileSync(filePath, 'utf-8')
+  const contentWithoutFrontmatter = source.replace(/^---\n([\s\S]*?)\n---/, '')
+  const { data } = matter(source)
+  const { content } = await compileMDX({
+    source: contentWithoutFrontmatter,
+    components: {
+      h1: ({ children }) => (
+        <h1 style={{ color: 'red', fontSize: '48px' }}>{children}</h1>
+      ),
+      Alert
+    },
+  })
+
+  console.log(content, data)
+  return {
+    content,
+    data,
+  }
 }

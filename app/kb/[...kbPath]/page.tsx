@@ -6,7 +6,7 @@ export async function generateStaticParams() {
     kbPaths,
   } = getKbData()
   return [
-    { kbPath: ['a'] },
+    { kbPath: ['test'] },
     ...kbPaths,
   ]
 }
@@ -17,10 +17,10 @@ export default async function KbPage({
   params: Promise<{ kbPath: string[] }>
 }) {
   const kbPath = (await params).kbPath
-  const KBContent = await getKBContent(kbPath)
+  const { content } = await getKBContent(kbPath)
   return (
     <Page>
-      <KBContent />
+      {content}
     </Page>
   )
 }

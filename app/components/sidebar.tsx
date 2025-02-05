@@ -11,7 +11,7 @@ export default function Sidebar({ data }: { data: Category[] }) {
   if (pathname === '/')
     return null
   return (
-    <aside className="border w-[var(--sidebar-width)] h-[calc(100vh_-_var(--header-height))] flex-shrink-0 overflow-y-auto">
+    <aside className="border-r w-[var(--sidebar-width)] h-[calc(100vh_-_var(--header-height))] flex-shrink-0 overflow-y-auto">
       <SidebarItems menuItems={data} />
     </aside>
   )
@@ -25,7 +25,7 @@ function SidebarItems({
   return (
     <ul>
       {menuItems.map((e) => {
-        return <SidebarItem menuItem={e} key={e.name} />
+        return <SidebarItem menuItem={e} key={e.title} />
       })}
     </ul>
   )
@@ -52,7 +52,7 @@ function SidebarItem({
       <li
         className={
           clsx(
-            ' py-2 my-1 rounded-r-full  hover:cursor-pointer ',
+            'overflow-hidden my-1 mr-1 rounded-r-full  hover:cursor-pointer ',
             menuItem.menus && 'font-bold text-lg',
             isActive
               ? ' bg-primary-light bg-opacity-10 text-primary'
@@ -63,13 +63,12 @@ function SidebarItem({
         <Link
           href={`/kb/${menuItem.path.join('/')}`}
           className={clsx(
-            'flex justify-between pr-2 items-center',
-
+            'flex justify-between pr-2 items-center  h-full py-2',
             menuItem.menus ? 'pl-3' : 'pl-6',
           )}
         >
           <span>
-            { menuItem.name }
+            { menuItem.title }
           </span>
           {
             menuItem.menus && (
@@ -80,7 +79,8 @@ function SidebarItem({
           }
         </Link>
       </li>
-      {menuItem.menus && isExpand && <SidebarItems menuItems={menuItem.menus} />}
+      {menuItem.menus && isExpand
+      && <SidebarItems menuItems={menuItem.menus} />}
     </>
   )
 }
