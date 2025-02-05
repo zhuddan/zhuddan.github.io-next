@@ -1,12 +1,12 @@
 'use client'
-import type { MenuItem } from '../libs/md'
+import type { Category } from '../libs/md'
 import clsx from 'clsx'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useMemo } from 'react'
 
-export default function Sidebar({ data }: { data: MenuItem[] }) {
+export default function Sidebar({ data }: { data: Category[] }) {
   const pathname = usePathname()
   if (pathname === '/')
     return null
@@ -20,7 +20,7 @@ export default function Sidebar({ data }: { data: MenuItem[] }) {
 function SidebarItems({
   menuItems,
 }: {
-  menuItems: MenuItem[]
+  menuItems: Category[]
 }) {
   return (
     <ul>
@@ -34,13 +34,13 @@ function SidebarItems({
 function SidebarItem({
   menuItem,
 }: {
-  menuItem: MenuItem
+  menuItem: Category
 }) {
   const pathname = usePathname()
   const isExpand = useMemo(() => {
     const pathList = pathname.split('/').filter(e => !!e).filter(e => e !== 'kb')
-    return menuItem.children && menuItem.path[0] === pathList[0]
-  }, [menuItem.children, menuItem.path, pathname])
+    return menuItem.menus && menuItem.path[0] === pathList[0]
+  }, [menuItem.menus, menuItem.path, pathname])
 
   const isActive = useMemo(() => {
     const selfpath = ['', 'kb', ...menuItem.path, ''].join('/')
@@ -53,7 +53,7 @@ function SidebarItem({
         className={
           clsx(
             ' py-2 my-1 rounded-r-full  hover:cursor-pointer ',
-            menuItem.children && 'font-bold text-lg',
+            menuItem.menus && 'font-bold text-lg',
             isActive
               ? ' bg-primary-light bg-opacity-10 text-primary'
               : ' hover:bg-gray-50',
@@ -65,14 +65,14 @@ function SidebarItem({
           className={clsx(
             'flex justify-between pr-2 items-center',
 
-            menuItem.children ? 'pl-3' : 'pl-6',
+            menuItem.menus ? 'pl-3' : 'pl-6',
           )}
         >
           <span>
             { menuItem.name }
           </span>
           {
-            menuItem.children && (
+            menuItem.menus && (
               isExpand
                 ? <ChevronDown />
                 : <ChevronRight />
@@ -80,7 +80,7 @@ function SidebarItem({
           }
         </Link>
       </li>
-      {menuItem.children && isExpand && <SidebarItems menuItems={menuItem.children} />}
+      {menuItem.menus && isExpand && <SidebarItems menuItems={menuItem.menus} />}
     </>
   )
 }
