@@ -1,10 +1,10 @@
 import Page from '@/app/components/page'
-import { getKBContext as getKBContent, getKbData } from '@/app/libs/md'
+import { generateKBData, getKBContent } from '@/app/libs/md'
 
 export async function generateStaticParams() {
   const {
     kbPaths,
-  } = getKbData()
+  } = generateKBData()
   return [
     { kbPath: ['test'] },
     ...kbPaths,
@@ -18,10 +18,12 @@ export default async function KbPage({
 }) {
   const kbPath = (await params).kbPath
   const { content } = await getKBContent(kbPath)
+
   return (
     <Page>
       {content}
     </Page>
   )
 }
+
 export const dynamicParams = false

@@ -1,12 +1,12 @@
 // 'use client'
 import React from 'react'
-import { getKbData } from '../libs/md'
+import { generateKBData } from '../libs/md'
 import Footer from './footer'
 import Sidebar from './sidebar'
 
 export default function Main({ children }: { children: React.ReactNode }) {
   // 或者完整 URL
-  const { tree } = getKbData()
+  const { tree } = generateKBData()
   return (
     <main className="flex">
       <Sidebar data={tree} />

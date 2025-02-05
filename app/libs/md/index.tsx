@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
 import { compileMDX } from 'next-mdx-remote/rsc'
+import components from './components'
 
 export interface Category {
   title: string
@@ -36,7 +37,7 @@ function getTree() {
   return items
 }
 
-export function getKbData() {
+export function generateKBData() {
   const tree = getTree()
   function getKbPaths(data: Category[]) {
     const result: { kbPath: string[] }[] = []
@@ -57,24 +58,7 @@ export function getKbData() {
   }
 }
 
-
-const Alert = ({ children, type = 'info' }: { children: React.ReactNode; type?: 'info' | 'warning' | 'error' }) => {
-  const styles = {
-    info: 'bg-blue-50 border-blue-200 text-blue-800',
-    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-    error: 'bg-red-50 border-red-200 text-red-800',
-  }
-  
-  return (
-    <div className={`p-4 my-4 border rounded-lg ${styles[type]}`}>
-      {children}
-    </div>
-  )
-}
-
-
-
-export async function getKBContext(kbPath: string[]) {
+export async function getKBContent(kbPath: string[]) {
   const mdFilePath = (kbPath.length === 1
     ? [...kbPath, 'index']
     : kbPath).join('/')
@@ -84,15 +68,8 @@ export async function getKBContext(kbPath: string[]) {
   const { data } = matter(source)
   const { content } = await compileMDX({
     source: contentWithoutFrontmatter,
-    components: {
-      h1: ({ children }) => (
-        <h1 style={{ color: 'red', fontSize: '48px' }}>{children}</h1>
-      ),
-      Alert
-    },
+    components,
   })
-
-  console.log(content, data)
   return {
     content,
     data,
