@@ -19,7 +19,7 @@ export const Heading: React.FC<HeadingProps> = ({
         id={id}
         className={
           clsx(
-            'my-[0.5em] font-bold font-archivo scroll-mt-[var(--header-height)]',
+            'my-[0.5em] font-bold font-archivo scroll-mt-[calc(var(--header-height)_+_0.5em)]',
             { 1: 'text-5xl', 2: 'text-3xl', 3: 'text-2xl', 4: 'text-xl', 5: 'text-lg' }[level],
           )
         }
