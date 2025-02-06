@@ -11,7 +11,7 @@ export default function Sidebar({ data }: { data: Category[] }) {
   if (pathname === '/')
     return null
   return (
-    <aside className="border-r w-[var(--sidebar-width)] h-[calc(100vh_-_var(--header-height))] flex-shrink-0 overflow-y-auto">
+    <aside className="border-r w-[var(--sidebar-width)] h-[calc(100vh_-_var(--header-height))] flex-shrink-0 overflow-y-auto sticky top-[var(--header-height)]">
       <SidebarItems menuItems={data} />
     </aside>
   )

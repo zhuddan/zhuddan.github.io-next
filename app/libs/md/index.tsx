@@ -2,6 +2,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
 import { compileMDX } from 'next-mdx-remote/rsc'
+import rehypeSlug from 'rehype-slug'
+import remarkGfm from 'remark-gfm'
 import components from './components'
 
 export interface Category {
@@ -59,9 +61,7 @@ export function generateKBData() {
 }
 
 export async function getKBContent(kbPath: string[]) {
-  const mdFilePath = (kbPath.length === 1
-    ? [...kbPath, 'index']
-    : kbPath).join('/')
+  const mdFilePath = (kbPath.length === 1 ? [...kbPath, 'index'] : kbPath).join('/')
   const filePath = path.join('app/knowledge-base', `${mdFilePath}.md`)
   const source = fs.readFileSync(filePath, 'utf-8')
   const contentWithoutFrontmatter = source.replace(/^---\n([\s\S]*?)\n---/, '')
@@ -69,6 +69,12 @@ export async function getKBContent(kbPath: string[]) {
   const { content } = await compileMDX({
     source: contentWithoutFrontmatter,
     components,
+    options: {
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [rehypeSlug],
+      },
+    },
   })
   return {
     content,

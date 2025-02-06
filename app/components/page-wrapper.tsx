@@ -5,7 +5,7 @@ import BaseLink from './base-link'
 interface PageProps extends React.HtmlHTMLAttributes<HTMLDivElement> {
 
 }
-export default function Page(
+export default function PageWrapper(
   {
     children,
     className,

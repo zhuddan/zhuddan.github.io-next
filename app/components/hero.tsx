@@ -19,7 +19,7 @@ export default function Hero() {
       </p>
       <div className="flex mt-4">
         <ButtonLink
-          href="/kb/about/a"
+          href="/kb/mini"
           active
           className="px-4 py-1.5 !bg-primary !text-white hover:!bg-opacity-90"
         >

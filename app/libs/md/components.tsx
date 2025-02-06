@@ -1,14 +1,10 @@
 import type { MDXComponents } from 'mdx/types'
-import Alert from '@/app/components/md/alert'
+import Alert from '@/app/components/mdx/alert'
+import { headingComponents } from '@/app/components/mdx/heading'
 
 const components: Readonly<MDXComponents> = {
   Alert,
-  h1: ({ children }) => (
-    <h1 className="text-4xl my-8">
-      #
-      {children}
-    </h1>
-  ),
+  ...headingComponents,
 }
 
 export default components

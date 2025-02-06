@@ -20,4 +20,9 @@ export default antfu({
   rules: {
     'no-console': 'off',
   },
+}, {
+  files: ['**/*.md', '**/*.mdx'],
+  rules: {
+    'format/prettier': 'off',
+  },
 })

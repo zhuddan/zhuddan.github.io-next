@@ -1,14 +1,9 @@
-import Page from '@/app/components/page'
+import PageWrapper from '@/app/components/page-wrapper'
 import { generateKBData, getKBContent } from '@/app/libs/md'
 
 export async function generateStaticParams() {
-  const {
-    kbPaths,
-  } = generateKBData()
-  return [
-    { kbPath: ['test'] },
-    ...kbPaths,
-  ]
+  const { kbPaths } = generateKBData()
+  return [...kbPaths]
 }
 
 export default async function KbPage({
@@ -18,11 +13,10 @@ export default async function KbPage({
 }) {
   const kbPath = (await params).kbPath
   const { content } = await getKBContent(kbPath)
-
   return (
-    <Page>
+    <PageWrapper>
       {content}
-    </Page>
+    </PageWrapper>
   )
 }
 
